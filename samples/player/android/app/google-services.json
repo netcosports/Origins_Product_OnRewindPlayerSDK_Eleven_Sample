@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "710828691755",
+    "project_id": "origins-player---eleven-club",
+    "storage_bucket": "origins-player---eleven-club.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710828691755:android:18d71714a7e39b9d77356e",
+        "android_client_info": {
+          "package_name": "com.origins.elevenclub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710828691755-mclj6fj0lvps0i9eds3r0nfp4nlteifk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSSpSdJasJgW0pp-mjIprID9C05j5H_rk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710828691755-mclj6fj0lvps0i9eds3r0nfp4nlteifk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "710828691755-u4h071efeh2jlel2fp3h11bou2tabdte.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.origins.elevenclub"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

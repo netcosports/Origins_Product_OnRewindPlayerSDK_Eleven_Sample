@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Eleven Demo</string>
+    <string name="leak_canary_display_activity_label" translatable="false">Eleven Leaks</string>
+</resources>

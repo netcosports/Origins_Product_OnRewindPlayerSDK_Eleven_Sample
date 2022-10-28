@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/app_accent_color</item>
+        <item name="colorPrimaryDark">@color/app_accent_color</item>
+        <item name="colorAccent">@color/app_accent_color</item>
+    </style>
+
+    <style name="AppTheme.Player" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/app_accent_color</item>
+        <item name="colorPrimaryDark">@color/app_accent_color</item>
+        <item name="colorAccent">@color/app_accent_color</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
+    <style name="ActionBar.Theme" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>
