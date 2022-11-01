@@ -23,102 +23,10 @@ import AVKit
 extension UINavigationController {
 
   public func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
-//    CATransaction.begin()
-//    CATransaction.setCompletionBlock({
-//      print("TEST animation completed")
-//      DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-//        completion?()
-//      }
-//    })
     pushViewController(viewController, animated: animated)
     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
       completion?()
     }
-//    CATransaction.commit()
-  }
-}
-
-class HomeCollectionCell: CollectionViewCell, Reusable {
-
-  let label: UILabel = {
-    let label = UILabel()
-    label.textColor = .black
-    label.font = .systemFont(ofSize: 14.0)
-    label.numberOfLines = 2
-    return label
-  }()
-
-  let separator: UIView = {
-    let view = UIView()
-    view.backgroundColor = UIColor.lightGray
-    return view
-  }()
-
-  let fullscreen: UIButton = {
-    let button = UIButton()
-    button.setTitle("Fullscreen", for: .normal)
-    button.setTitleColor(UIColor.blue, for: .normal)
-    return button
-  }()
-
-  let list: UIButton = {
-    let button = UIButton()
-    button.setTitle("List", for: .normal)
-    button.setTitleColor(UIColor.blue, for: .normal)
-    return button
-  }()
-
-  let embedded: UIButton = {
-    let button = UIButton()
-    button.setTitle("Embedded", for: .normal)
-    button.setTitleColor(UIColor.blue, for: .normal)
-    return button
-  }()
-
-  override func setup() {
-    super.setup()
-    contentView.addSubview(label)
-    contentView.addSubview(fullscreen)
-    contentView.addSubview(list)
-    contentView.addSubview(embedded)
-    contentView.addSubview(separator)
-  }
-
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    label.pin.top(12).horizontally(12).sizeToFit(.width)
-    separator.pin.bottom().horizontally().height(1.0)
-
-    let width = self.width / 3.0
-    fullscreen.pin.start().width(width).below(of: label).bottom()
-    list.pin.after(of: fullscreen).width(width).below(of: label).bottom()
-    embedded.pin.after(of: list).width(width).below(of: label).bottom()
-  }
-
-  typealias Data = ViewModel
-
-  enum Events {
-    case fullscreen
-    case embeded
-    case list
-  }
-
-  struct ViewModel {
-    let title: String
-    let events: AnyObserver<Events>
-  }
-
-  private var bindDisposeBag = DisposeBag()
-  func setup(with data: Data) {
-    label.text = data.title
-    bindDisposeBag = DisposeBag()
-    fullscreen.rx.tap.map { Events.fullscreen }.bind(to: data.events).disposed(by: bindDisposeBag)
-    list.rx.tap.map { Events.list }.bind(to: data.events).disposed(by: bindDisposeBag)
-    embedded.rx.tap.map { Events.embeded }.bind(to: data.events).disposed(by: bindDisposeBag)
-  }
-
-  class func size(for data: Data, containerSize: CGSize) -> CGSize {
-    return CGSize(width: containerSize.width, height: 120.0)
   }
 }
 
@@ -148,9 +56,6 @@ public struct TestVideoModel: JSONModel, Equatable {
 class HomeViewController: UIViewController, Loadable, Accessor, Containerable {
 
   typealias Cell = CollectionCell<HomeCollectionCell>
-
-
-
   enum Events: Equatable {
     case fullscreen(TestVideoModel)
     case list(TestVideoModel)
@@ -279,7 +184,7 @@ class HomeViewController: UIViewController, Loadable, Accessor, Containerable {
       self.lastEvent = events
       switch events {
       case .embeded(let model), .list(let model), .fullscreen(let model):
-          OnRewind.set(baseUrl: model.baseUrl)
+        OnRewind.set(baseUrl: model.baseUrl)
           //        OnRewind.set(vastUrl: "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostoptimizedpodbumper&cmsid=496&vid=short_onecue&correlator=")
         let params: OnRewind.EventParams
           if let directUrl = model.directVideoUrl, let streamUrl = URL(string: directUrl) {
