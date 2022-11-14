@@ -10,20 +10,13 @@ import android.util.Rational
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.isVisible
-import com.origins.onrewind.OnRewind
-import com.origins.onrewind.analytics.OnRewindEventListener
 import com.origins.onrewind.android.R
-import com.origins.onrewind.android.data.DemoApi
-import com.origins.onrewind.android.data.entity.StreamItem
-import com.origins.onrewind.domain.analytics.AnalyticsEvent
 import com.origins.onrewind.domain.models.player.MediaControllerMode
 import com.origins.onrewind.domain.models.player.ScreenMode
 import com.origins.onrewind.ui.OnRewindPlayerView
@@ -32,23 +25,15 @@ import com.origins.onrewind.ui.util.isPortrait
 
 class PlayerActivity2 : AppCompatActivity() {
 
-    private val analyticsAdapter: AnalyticsAdapter by lazy { AnalyticsAdapter(this) }
-
-    private val streamItem: StreamItem
-        get() = intent.getSerializableExtra(EXTRA_SAMPLE_DATA) as StreamItem
-
     private val constraintSetFullscreen = ConstraintSet()
     private val constraintSetNormal = ConstraintSet()
 
     private var isPlayerInPortrait: Boolean = true
 
-    private val isLandOnly: Boolean = false
-
     private val returnToUserOrientationAction = Runnable {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
     }
 
-    private var analyticsOverlayList: ListView? = null
     private var playerActivityContainer: ConstraintLayout? = null
 
     private var controller: WindowInsetsControllerCompat? = null
@@ -65,28 +50,6 @@ class PlayerActivity2 : AppCompatActivity() {
         constraintSetNormal.clone(this, R.layout.activity_player_normal)
 
         showPlayer()
-
-        analyticsOverlayList = findViewById(R.id.analyticsOverlayList)
-        analyticsOverlayList?.adapter = analyticsAdapter
-
-        val analyticsOverlay = findViewById<View>(R.id.analyticsOverlay)
-        analyticsOverlay.isVisible = DemoApi.settings.isAnalyticsOverlayEnabled
-        constraintSetNormal.setVisibility(R.id.analyticsOverlay, analyticsOverlay.visibility)
-        constraintSetFullscreen.setVisibility(R.id.analyticsOverlay, analyticsOverlay.visibility)
-
-        val analyticsOverlayListVisibilityToggle =
-            findViewById<View>(R.id.analyticsOverlayListVisibilityToggle)
-
-        analyticsOverlayListVisibilityToggle.setOnClickListener {
-            val isVisible = analyticsOverlayList?.visibility == View.VISIBLE
-            analyticsOverlayList?.visibility = if (isVisible) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
-
-            analyticsOverlayListVisibilityToggle.isSelected = isVisible
-        }
 
         playerView?.fullscreenButtonToggleHandler =
             OnRewindPlayerView.FullscreenButtonToggleHandler {
@@ -126,10 +89,8 @@ class PlayerActivity2 : AppCompatActivity() {
                 }
         }
 
-        if (!isLandOnly) {
-            playerView?.requestControllerMode(MediaControllerMode.NORMAL)
-            updateControllerMode(false)
-        }
+        playerView?.requestControllerMode(MediaControllerMode.NORMAL)
+        updateControllerMode(false)
 
         updatePlayerConstraints(isPortrait)
 
@@ -137,8 +98,13 @@ class PlayerActivity2 : AppCompatActivity() {
             updateControllerMode(true)
         }
 
-        ///!!! TODO: AZ: to test fullscreen mode from start
-//        updateControllerMode(true)
+        addOnPictureInPictureModeChangedListener {
+            if (it.isInPictureInPictureMode) {
+                playerView?.enterPictureInPicture()
+            } else {
+                playerView?.exitPictureInPicture()
+            }
+        }
     }
 
     private fun updateOrientation(isPortrait: Boolean) {
@@ -149,18 +115,6 @@ class PlayerActivity2 : AppCompatActivity() {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
             playerActivityContainer?.postDelayed(returnToUserOrientationAction, 2000)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (DemoApi.settings.isAnalyticsOverlayEnabled) {
-            OnRewind.addEventListener(eventListener)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        OnRewind.removeEventListener(eventListener)
     }
 
     override fun onUserLeaveHint() {
@@ -194,35 +148,11 @@ class PlayerActivity2 : AppCompatActivity() {
 
     private var playerView: OnRewindPlayerView? = null
 
-    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean) {
-        super.onPictureInPictureModeChanged(isInPictureInPictureMode)
-        if (isInPictureInPictureMode) {
-            playerView?.enterPictureInPicture()
-        } else {
-            playerView?.exitPictureInPicture()
-        }
-    }
-
     private fun showPlayer() {
         val config = PlayerParameters.Builder()
-            .setEventId(streamItem.eventId)
-//            .setWrapper(ExoPlayerWrapper(this))
-            .setEventConfigurationUrl(streamItem.eventConfigurationUrl)
-            .setAccountKey(streamItem.accountKey).apply {
-                val directUrl = streamItem.directVideoUrl
-                if (directUrl != null) {
-                    setDirectVideoParams(
-                        PlayerParameters.DirectVideoParams.Builder()
-                            .setVideoUrl(directUrl)
-                            .setIsLive(true)
-                            .build()
-                    )
-                }
-            }
-//            .isWindowedStream(true)
+            .setEventConfigurationUrl("https://dl.dropboxusercontent.com/s/gy6p16e0sfbjl38/eleven_demo_player_config.json")
+            .setAccountKey("S1itgNWC9")
             .setIsChromecastEnabled(true)
-            .setHeatmap(streamItem.heatmapUrl)
-            .setBetting(streamItem.bettingUrl)
             .build()
 
         val fragmentContainer = findViewById<FrameLayout>(R.id.fragmentContainer)
@@ -239,11 +169,6 @@ class PlayerActivity2 : AppCompatActivity() {
     }
 
     private fun updateControllerMode(isEnriched: Boolean) {
-        if (isLandOnly) {
-            playerView?.requestControllerMode(MediaControllerMode.ENRICHED)
-            return
-        }
-
         val mode = if (isEnriched) MediaControllerMode.ENRICHED else MediaControllerMode.NORMAL
         updateOrientation(mode == MediaControllerMode.NORMAL)
 
@@ -286,7 +211,6 @@ class PlayerActivity2 : AppCompatActivity() {
         }
     }
 
-
     private fun hideSystemBars() {
         controller?.hide(WindowInsetsCompat.Type.systemBars())
         controller?.systemBarsBehavior =
@@ -297,16 +221,5 @@ class PlayerActivity2 : AppCompatActivity() {
     private fun showSystemBars() {
         controller?.show(WindowInsetsCompat.Type.systemBars())
         WindowCompat.setDecorFitsSystemWindows(window, true)
-    }
-
-    private val eventListener: OnRewindEventListener = object : OnRewindEventListener {
-        override fun onEvent(event: AnalyticsEvent) {
-            analyticsAdapter.add(event)
-            analyticsOverlayList?.smoothScrollToPosition(analyticsAdapter.count - 1)
-        }
-    }
-
-    companion object {
-        const val EXTRA_SAMPLE_DATA = "extra_sample_data"
     }
 }

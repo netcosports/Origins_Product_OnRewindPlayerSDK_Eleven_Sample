@@ -1,18 +1,19 @@
 package com.origins.onrewind.android
 
 import android.app.Application
-import android.content.Context
-import com.origins.onrewind.android.data.DemoApi
+import com.origins.onrewind.OnRewind
+
 
 class OnRewindSampleApplication : Application() {
-
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-    }
 
     override fun onCreate() {
         super.onCreate()
 
-        DemoApi.init(this)
+        OnRewind.initialize(
+            OnRewind.InitParams.Builder()
+                .setApplicationContext(this)
+                .setBaseUrl("https://dev-api-gateway.onrewind.tv/main-api/")
+                .build()
+        )
     }
 }
