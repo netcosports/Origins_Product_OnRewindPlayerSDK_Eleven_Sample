@@ -60,35 +60,4 @@
             tools:ignore="HardcodedText" />
 
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/analyticsOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ListView
-            android:id="@+id/analyticsOverlayList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#7000"
-            android:listSelector="@android:color/transparent" />
-
-        <ImageView
-            android:id="@+id/analyticsOverlayListVisibilityToggle"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="end|top"
-            android:background="?actionBarItemBackground"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_baseline_visibility_selector" />
-
-    </FrameLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
