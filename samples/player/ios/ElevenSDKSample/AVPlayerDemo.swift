@@ -14,7 +14,7 @@ import RxSwift
 import RxCocoa
 
 
-enum TestError: OnRewindErrorWithMessage {
+enum TestError: ErrorWithMessage {
   var isRecoverableError: Bool {
     return true
   }
@@ -127,7 +127,7 @@ class AVPlayerDemo: UIView, OnRewindSDK.PlayerWrapper {
       return item.seekableTimeRanges.last?.timeRangeValue.end != item.currentTime()
     }
     .distinctUntilChanged()
-    .map { $0 == 0.0 ? PlayerStateDeprecated.active(state: .paused) : PlayerStateDeprecated.active(state: .playing) }
+    .map { $0 == 0.0 ? PlayerPlaybackState.active(state: .paused) : PlayerPlaybackState.active(state: .playing) }
     .subscribe(onNext: { [weak self] state in
       self?.playerStateClosure?(state)
     }).disposed(by: disposeBag)
@@ -135,19 +135,19 @@ class AVPlayerDemo: UIView, OnRewindSDK.PlayerWrapper {
     item.rx.playbackLikelyToKeepUp
     .observeOn(MainScheduler.asyncInstance)
     .map { [weak player] in
-      return $0 ? PlayerStateDeprecated.active(state: player?.rate == 0.0 ? .paused : .playing ) : PlayerStateDeprecated.loading
+      return $0 ? PlayerPlaybackState.active(state: player?.rate == 0.0 ? .paused : .playing ) : PlayerPlaybackState.loading
     }.subscribe(onNext: { [weak self] state in
       self?.playerStateClosure?(state)
     }).disposed(by: disposeBag)
 
     item.rx.didPlayToEnd
-      .map { _ in PlayerStateDeprecated.finished }
+      .map { _ in PlayerPlaybackState.finished }
       .subscribe(onNext: { [weak self] state in
       self?.playerStateClosure?(state)
     }).disposed(by: disposeBag)
 
     item.rx.status.filter { $0 == .readyToPlay }.take(1).map { _ in
-      return PlayerStateDeprecated.ready
+      return PlayerPlaybackState.ready
     }.subscribe(onNext: { [weak self] state in
       self?.qualitiesClosure?([
         .stream(bandwidth: 100, resolution: .init(side: 100), url: "", description: "test")
@@ -158,7 +158,7 @@ class AVPlayerDemo: UIView, OnRewindSDK.PlayerWrapper {
     item.rx.error.flatMap { error -> Observable<Error> in
       guard let error = error else { return .empty() }
       return .just(error)
-		}.map { error in PlayerStateDeprecated.error(error: .playback(error: TestError.test)) }
+		}.map { error in PlayerPlaybackState.error(error: .playback(error: TestError.test)) }
     .subscribe(onNext: { [weak self] state in
       self?.playerStateClosure?(state)
     }).disposed(by: disposeBag)
@@ -196,7 +196,7 @@ class AVPlayerDemo: UIView, OnRewindSDK.PlayerWrapper {
     }
   }
 
-  func setPlaybackState(state: OnRewindSDK.PlaybackStateDeprected) {
+  func setPlayerPlaybackState(state: PlaybackActiveState) {
     switch state {
     case .paused:
       self.player.pause()

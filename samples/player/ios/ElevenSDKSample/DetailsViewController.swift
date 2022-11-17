@@ -13,7 +13,7 @@ import RxSwift
 
 class DetailsViewController: UIViewController {
 
-  var playerController: (UIViewController & OnRewindEmbeddedController)?
+  var playerController: (UIViewController & EmbeddedController)?
   let params: OnRewind.EventParams
   private let fullscreenButton = UIButton()
   private let anotherButton = UIButton()

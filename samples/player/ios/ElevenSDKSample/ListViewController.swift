@@ -46,7 +46,7 @@ class PlaceholderCollectionCell: CollectionViewCell, Reusable {
 
 class PlayerCollectionCell: CollectionViewCell, Reusable {
 
-  private weak var playerController: (UIViewController & OnRewindEmbeddedController)?
+  private weak var playerController: (UIViewController & EmbeddedController)?
   override func setup() {
     super.setup()
     contentView.backgroundColor = .darkGray
@@ -58,7 +58,7 @@ class PlayerCollectionCell: CollectionViewCell, Reusable {
   }
 
   struct ViewModel {
-    weak var player: (UIViewController & OnRewindEmbeddedController)?
+    weak var player: (UIViewController & EmbeddedController)?
   }
 
   typealias Data = ViewModel
@@ -92,7 +92,7 @@ class PlayerCollectionCell: CollectionViewCell, Reusable {
 
 class ListViewController: UIViewController {
 
-  var playerController: (UIViewController & OnRewindEmbeddedController)?
+  var playerController: (UIViewController & EmbeddedController)?
   let params: OnRewind.EventParams
   let containerView = CollectionView<LoaderDecoratorSource<CollectionViewSource>>()
 
