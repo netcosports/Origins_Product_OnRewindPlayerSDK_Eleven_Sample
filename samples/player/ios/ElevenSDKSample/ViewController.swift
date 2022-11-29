@@ -184,18 +184,8 @@ class HomeViewController: UIViewController, Loadable, Accessor, Containerable {
       self.lastEvent = events
       switch events {
       case .embeded(let model), .list(let model), .fullscreen(let model):
-        OnRewind.set(baseUrl: model.baseUrl)
-          //        OnRewind.set(vastUrl: "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostoptimizedpodbumper&cmsid=496&vid=short_onecue&correlator=")
-        let params: OnRewind.EventParams
-          if let directUrl = model.directVideoUrl, let streamUrl = URL(string: directUrl) {
-          params = .videoStream(streamUrl, isLive: false)
-        } else if let configUrl = model.configurationUrl, let url = URL(string: configUrl) {
-          params = .configurationURL(url, accountKey: model.accountKey, heatmapUrl: model.heatmapUrl, bettingUrl: model.bettingUrl)
-        } else if let eventId = model.eventId {
-          params = .eventId(eventId, accountKey: model.accountKey)
-        } else {
-          return
-        }
+        OnRewind.set(baseUrl: "https://api-gateway.onrewind.tv/", accountKey: "r1NDhRbRI")
+        let params: OnRewind.EventParams = .matchId("154")
 
         switch events {
         case .fullscreen:

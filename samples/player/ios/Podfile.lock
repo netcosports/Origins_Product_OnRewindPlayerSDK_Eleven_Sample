@@ -50,10 +50,10 @@ PODS:
   - google-cast-sdk/Core (4.7.0):
     - Protobuf (~> 3.13)
   - Kingfisher (7.4.1)
-  - OnRewindSDK (1.0.9):
+  - OnRewindSDK (1.0.10):
     - google-cast-sdk (= 4.7.0)
     - onrewindshared
-  - onrewindshared (1.0.9)
+  - onrewindshared (1.0.10)
   - PinLayout (1.10.3)
   - Protobuf (3.21.9)
   - ReachabilitySwift (5.0.0)
@@ -132,8 +132,8 @@ SPEC CHECKSUMS:
   Gnomon: 64c1c4278b52a749a30eecb9d75992edfb8e4509
   google-cast-sdk: 6731e9a206ce43e0f4433d15598ad8a19f0371d5
   Kingfisher: cd762a593a61b2fbecf7645c00f9a801a3ebfc9c
-  OnRewindSDK: 0599137b0d2ab5c2cca6eb09694cb2fb4d796217
-  onrewindshared: 1b8fbea7302654538fc48ba6f865d2d2252f0217
+  OnRewindSDK: fdad2f7c11cb9119ada1b1faf884b3351940acbb
+  onrewindshared: 18397c7ac1fadc010ab703d50e1c2be94248e4a8
   PinLayout: 0090ccbf29ae69af6ae5a15eaeaf27ed7b2c4d83
   Protobuf: 02524ec14183fe08fb259741659e79683788158b
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
@@ -145,6 +145,6 @@ SPEC CHECKSUMS:
   Sundial: 2b60ec229eab90fde2e8401028e4f8bbf4ef16ad
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: c37329fb5e72c21e8b80ff09c17073b23505525a
+PODFILE CHECKSUM: f24bfdeb0f9b97345ec8457a5499a8a25ade0fac
 
 COCOAPODS: 1.11.3
