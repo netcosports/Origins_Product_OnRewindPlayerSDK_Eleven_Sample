@@ -150,7 +150,7 @@ class PlayerActivity2 : AppCompatActivity() {
 
     private fun showPlayer() {
         val config = PlayerParameters.Builder()
-            .setGameId("d6w4mtposi78s23qlsuf0pous")
+            .setGameId("dgtkxrkgnuh2w0xtznzrks1ec")
             .setAccountKey("S1itgNWC9")
             .setIsChromecastEnabled(true)
             .build()
