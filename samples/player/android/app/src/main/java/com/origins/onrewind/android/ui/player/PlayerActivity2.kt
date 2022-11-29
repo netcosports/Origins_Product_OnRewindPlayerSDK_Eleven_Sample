@@ -150,7 +150,7 @@ class PlayerActivity2 : AppCompatActivity() {
 
     private fun showPlayer() {
         val config = PlayerParameters.Builder()
-            .setEventConfigurationUrl("https://dl.dropboxusercontent.com/s/gy6p16e0sfbjl38/eleven_demo_player_config.json")
+            .setGameId("d6w4mtposi78s23qlsuf0pous")
             .setAccountKey("S1itgNWC9")
             .setIsChromecastEnabled(true)
             .build()

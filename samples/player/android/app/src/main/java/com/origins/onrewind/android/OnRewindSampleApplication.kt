@@ -12,7 +12,7 @@ class OnRewindSampleApplication : Application() {
         OnRewind.initialize(
             OnRewind.InitParams.Builder()
                 .setApplicationContext(this)
-                .setBaseUrl("https://dev-api-gateway.onrewind.tv/main-api/")
+                .setBaseUrl("https://dev-api-gateway.onrewind.tv/")
                 .build()
         )
     }
