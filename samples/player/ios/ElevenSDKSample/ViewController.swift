@@ -184,20 +184,20 @@ class HomeViewController: UIViewController, Loadable, Accessor, Containerable {
       self.lastEvent = events
       switch events {
       case .embeded(let model), .list(let model), .fullscreen(let model):
-        OnRewind.set(baseUrl: "https://api-gateway.onrewind.tv/", accountKey: "r1NDhRbRI")
-        let params: OnRewind.EventParams = .matchId("154")
+        OnRewind.set(baseUrl: "https://dev-api-gateway.onrewind.tv/", accountKey: "S1itgNWC9")
+        let params: OnRewind.EventParams = .matchId("dgtkxrkgnuh2w0xtznzrks1ec")
 
         switch events {
         case .fullscreen:
             OnRewind.presentPlayer(
               with: params,
               from: self,
-              playerWrapperClosure: {
-                return AVPlayerDemo()
-              },
-              playerUIEventsClosure: { event in
-                print("TEST ui event: \(event)")
-              },
+//              playerWrapperClosure: {
+//                return AVPlayerDemo()
+//              },
+//              playerUIEventsClosure: { event in
+//                print("TEST ui event: \(event)")
+//              },
               playerAnalyticsEventsClosure: { event in
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                   self.analyticsView.handle(event: event)

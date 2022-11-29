@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|  
     s.name = 'OnRewindSDK'
-    s.version = '1.0.10'
+    s.version = '1.0.11'
     s.summary = 'OnRewind summary'
     s.homepage = 'https://github.com/netcosports'
 
@@ -11,17 +11,14 @@ Pod::Spec.new do |s|
     }
 
     s.platform = :ios
-    s.source = { :http => 'https://origins-mobile-products.s3.eu-west-1.amazonaws.com/eleven_onrewind_player/whitelabel/1.0.10/OnRewindSDK.xcframework.zip' }
+    s.source = { :http => 'https://origins-mobile-products.s3.eu-west-1.amazonaws.com/eleven_onrewind_player/whitelabel/1.0.11/OnRewindSDK.xcframework.zip' }
 
     s.ios.deployment_target = '12.0'
     s.ios.vendored_frameworks = 'OnRewindSDK.xcframework'
 
-	s.dependency 'google-cast-sdk', '4.7.0'
 	s.dependency 'onrewindshared'
 
 
-s.preserve_paths = "OnRewindSDK.xcframework"
-s.resources = ["OnRewindSDK.xcframework/ios-arm64/OnRewindSDK.framework/OnRewindSDKBundle.bundle"]
 
 
 end
