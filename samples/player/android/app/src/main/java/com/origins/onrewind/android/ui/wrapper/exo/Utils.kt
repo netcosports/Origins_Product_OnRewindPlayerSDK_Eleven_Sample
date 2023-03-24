@@ -25,7 +25,7 @@ object Utils {
         dataSourceFactory: DataSource.Factory,
     ): MediaSource {
         val uriWithoutQuery = uri.buildUpon().clearQuery().build()
-        val type = Util.inferContentType(uriWithoutQuery, "")
+        val type = Util.inferContentType(uriWithoutQuery)
 
         return when (type) {
             C.CONTENT_TYPE_DASH -> {

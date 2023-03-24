@@ -8,12 +8,13 @@ import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.Util
-import com.origins.onrewind.domain.models.player.*
-import com.origins.onrewind.ui.player.wrapper.*
+import com.origins.eleven.domain.models.player.*
+import com.origins.eleven.ui.player.wrapper.*
 import kotlin.math.max
 import kotlin.math.min
 
-class ExoPlayerWrapper(val context: Context) : OnRewindPlayerWrapper {
+
+class ExoPlayerWrapper(private val context: Context) : OnRewindElevenPlayerWrapper {
     private var exoPlayer: ExoPlayer? = null
     private val dataSourceFactory: DataSource.Factory = createDataSourceFactory()
 
@@ -244,10 +245,6 @@ class ExoPlayerWrapper(val context: Context) : OnRewindPlayerWrapper {
 
             playerStateListener?.onNewState(PlayerState.Error(error.message))
         }
-    }
-
-    companion object {
-        const val TAG = "AABBCC"
     }
 }
 

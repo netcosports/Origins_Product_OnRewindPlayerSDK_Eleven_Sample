@@ -16,12 +16,13 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.origins.eleven.domain.models.player.MediaControllerMode
+import com.origins.eleven.domain.models.player.ScreenMode
+import com.origins.eleven.ui.OnRewindElevenPlayerView
+import com.origins.eleven.ui.PlayerParameters
+import com.origins.eleven.ui.util.isPortrait
 import com.origins.onrewind.android.R
-import com.origins.onrewind.domain.models.player.MediaControllerMode
-import com.origins.onrewind.domain.models.player.ScreenMode
-import com.origins.onrewind.ui.OnRewindPlayerView
-import com.origins.onrewind.ui.PlayerParameters
-import com.origins.onrewind.ui.util.isPortrait
+
 
 class PlayerActivity2 : AppCompatActivity() {
 
@@ -52,22 +53,22 @@ class PlayerActivity2 : AppCompatActivity() {
         showPlayer()
 
         playerView?.fullscreenButtonToggleHandler =
-            OnRewindPlayerView.FullscreenButtonToggleHandler {
+            OnRewindElevenPlayerView.FullscreenButtonToggleHandler {
                 updateOrientation(!isPlayerInPortrait)
             }
 
-        playerView?.exitEnrichModeHandler = OnRewindPlayerView.ExitEnrichModeHandler {
+        playerView?.exitEnrichModeHandler = OnRewindElevenPlayerView.ExitEnrichModeHandler {
             updateControllerMode(false)
         }
 
-        playerView?.exitNormalLandscapeHandler = OnRewindPlayerView.ExitNormalLandscapeHandler {
+        playerView?.exitNormalLandscapeHandler = OnRewindElevenPlayerView.ExitNormalLandscapeHandler {
             updateOrientation(true)
             playerView?.requestControllerMode(MediaControllerMode.NORMAL)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && resources.getBoolean(R.bool.can_pip)) {
             playerView?.onPlayerCanGoPictureInPictureListener =
-                OnRewindPlayerView.OnPlayerCanGoPictureInPictureListener { canGoPip ->
+                OnRewindElevenPlayerView.OnPlayerCanGoPictureInPictureListener { canGoPip ->
                     val topLeftLocation = IntArray(2)
                     val fragmentContainer = findViewById<View>(R.id.fragmentContainer)
                     fragmentContainer.getLocationInWindow(topLeftLocation)
@@ -146,7 +147,7 @@ class PlayerActivity2 : AppCompatActivity() {
         }
     }
 
-    private var playerView: OnRewindPlayerView? = null
+    private var playerView: OnRewindElevenPlayerView? = null
 
     private fun showPlayer() {
         val config = PlayerParameters.Builder()
@@ -156,7 +157,7 @@ class PlayerActivity2 : AppCompatActivity() {
             .build()
 
         val fragmentContainer = findViewById<FrameLayout>(R.id.fragmentContainer)
-        val player = OnRewindPlayerView(this, config)
+        val player = OnRewindElevenPlayerView(this, config)
         playerView = player
 
         fragmentContainer.addView(
